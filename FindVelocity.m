@@ -48,8 +48,8 @@ if length(Points(:,1))>1
         if Go
             for Goi=1:length(Go)
                 
-                from=(find(Frames==Points(Go(Goi),1),1)+1);
-                to=(find(Frames==Points(Go(Goi)+1,1),1,'last')-1);
+                from=(find(Frames==Points(Go(Goi),1),1));%+1 default
+                to=(find(Frames==Points(Go(Goi)+1,1),1,'last'));%-1 default
                 
                 Points(Go(Goi),1)=Frames(from);
                 Points(Go(Goi)+1,1)=Frames(to);
@@ -82,7 +82,7 @@ if length(Points(:,1))>1
                     
                     x=[floor(Frames(from)):min(ceil(Frames(to)),max(floor(Frames)))];
                     
-                    y=interp1(Frames(from:to),Dist(from:to),[floor(Frames(from)):min(ceil(Frames(to)),max(floor(Frames)))],'pchip');
+                        y=interp1(Frames(from:to),Dist(from:to),[floor(Frames(from)):min(ceil(Frames(to)),max(floor(Frames)))],'pchip');
                     Posx([floor(Frames(from)):min(ceil(Frames(to)),max(floor(Frames)))])=interp1(Frames(from:to),Pos1(1:end),[floor(Frames(from)):min(ceil(Frames(to)),max(floor(Frames)))],'pchip');
                     Posy([floor(Frames(from)):min(ceil(Frames(to)),max(floor(Frames)))])=interp1(Frames(from:to),Pos2(1:end),[floor(Frames(from)):min(ceil(Frames(to)),max(floor(Frames)))],'pchip');
                     

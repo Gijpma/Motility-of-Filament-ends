@@ -4,7 +4,7 @@ function VideoOut(FinalPosx, FinalPosy, FinalSpeeds, dirout, file)
 % hight of the green bar (scaled to the mean velocity in the video)
 tic
 VideoObject = VideoReader([dirout file]);
-v = VideoWriter([dirout '\results\' file(1:end-4) '_TipTail.avi'],'Motion JPEG AVI');
+v = VideoWriter([dirout '\results2\' file(1:end-4) '_TipTail.avi'],'Motion JPEG AVI');
 open(v)
 vidFrames = readFrame(VideoObject);
 factor=255/mean(FinalSpeeds(find(FinalSpeeds>0)));
@@ -19,16 +19,16 @@ for i=3:find(abs(sum(FinalSpeeds))>0,1,'last')-1
         A=imresize(vidFrames,1);
         
         for j=1:find(abs(sum(FinalSpeeds'))>0,1,'last')        
-            y=round(FinalPosy(j,i));
-            x=round(FinalPosx(j,i));
+            y=full(round(FinalPosy(j,i)));
+            x=full(round(FinalPosx(j,i)));
             if FinalSpeeds(j,i)<0 & x>2 & y>2
                 A(x-1:x+1,y-1:y+1,1)=255;
                 A(x,y,2)=255;
                 A(x,y,3)=255;
                 
             elseif FinalSpeeds(j,i)>0 & FinalSpeeds(j,i)<50
-                A(x-1:x+1,y-1:y+1,2)=round(FinalSpeeds(j,i)*factor);
-                xout=x-1*round(FinalSpeeds(j,i)*factor/10);
+                A(x-1:x+1,y-1:y+1,2)=full(round(FinalSpeeds(j,i)*factor));
+                xout=x-1*full(round(FinalSpeeds(j,i)*factor/10));
                 if xout<1
                     xout=1;
                 end
@@ -42,7 +42,8 @@ for i=3:find(abs(sum(FinalSpeeds))>0,1,'last')-1
             end
         end
        
-       A=imresize(A,[480 720]);
+%        A=imresize(A,[480 720]);
+      
         writeVideo(v,A);
     end
     

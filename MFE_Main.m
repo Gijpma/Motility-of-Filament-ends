@@ -11,26 +11,33 @@ tic
 %% end setting parameters
 
 % Loading video file
-[filelist,dirout]=uigetfile('*.avi','multiselect','on');
-if iscell(filelist)
-    if ~isempty(dirout)
+[DirFile]=uipickfiles('filterspec','L:\*.avi');
+for i=1:length(DirFile)
+    dummy=strfind(DirFile{i},'\');
+    filelist{i}=DirFile{i}(dummy(end)+1:end);
+    dirout{i}=DirFile{i}(1:dummy(end));
+end
+
+if length(filelist)>1
+    %iscell(filelist)
+%     if ~isempty(dirout)
         parfor VideoNow=1:length(filelist)
             tic
-            file=filelist{VideoNow};
+            
             try
-                MFE_Process(dirout,file,VideoNow)
+                MFE_Process(dirout{VideoNow},filelist{VideoNow},VideoNow)
             catch
-                ['error in ' file]
+                ['error in ' dir file]
             end
             toc
         end
-    end
+%     end
 else
     file=filelist;
     try
-        MFE_Process(dirout,file,1)
+        MFE_Process(dirout{1},filelist{1},1)
     catch
-        ['error in ' file]
+        ['error in ' filelist{1}]
     end
     
 end

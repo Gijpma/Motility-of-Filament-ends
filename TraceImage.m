@@ -8,9 +8,12 @@ for i=1:length(FilEnd)
     y=y-min(y)+1;
     indxy=sub2ind([max(x) max(y)],x,y);
     ImageTail=(zeros(max(x),max(y)));
-    ImageTail(indxy)= FilEnd(i).TipImage(:,2);                % generate trace image with maximum frame values
+    ImageTail(indxy)= double(FilEnd(i).TipImage(:,2))+0.1*double(FilEnd(i).TipImage(:,3));                % generate trace image with maximum frame values
     ImageTip=(zeros(max(x),max(y)));% store
-    ImageTip(indxy(end:-1:1))= FilEnd(i).TipImage(end:-1:1,2);                 % generate image with minimum frame falues
+    ImageTip(indxy(end:-1:1))= double(FilEnd(i).TipImage(end:-1:1,2))+0.1*double(FilEnd(i).TipImage(end:-1:1,3));                 % generate image with minimum frame values
+    if length(ImageTip)<3 
+      
+    end
     OvertakeTip=double(bwmorph(ImageTip,'thin',2)).*ImageTip;
     OvertakeTail=double(bwmorph(ImageTail,'thin',2)).*ImageTail;
     clear TailOut
